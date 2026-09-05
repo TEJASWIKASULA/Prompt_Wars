@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base:'/Prompt_Wars/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
