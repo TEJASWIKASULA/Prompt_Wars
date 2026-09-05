@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
@@ -795,7 +794,14 @@ app.post("/api/fhir-export", (req, res) => {
 // Vite Middleware for Development / Static Serving in Production
 // -------------------------------------------------------------
 async function startServer() {
-  if (process.env.NODE_ENV !== "production") {
+  const isProduction =
+    process.env.NODE_ENV === "production" ||
+    process.env.NODE_ENV === "prod" ||
+    (typeof __filename !== "undefined" && __filename.includes("dist")) ||
+    process.env.npm_lifecycle_event === "start";
+
+  if (!isProduction) {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa"
@@ -810,7 +816,7 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[MedLens AI] Server running on http://0.0.0.0:${PORT}`);
+    console.log(`[MedLens AI] Server running on http://0.0.0.0:${PORT} (${isProduction ? "production" : "development"})`);
   });
 }
 
