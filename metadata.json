@@ -1,0 +1,6 @@
+{
+  "name": "MedLens AI",
+  "description": "Clinical information intelligence workstation with optical OCR extraction, provenance tracking, and human-in-the-loop attestation.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
